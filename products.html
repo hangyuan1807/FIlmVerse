@@ -1,10 +1,9 @@
 <!doctype html>
 <html lang="vi">
-
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Phim | FilmVerse</title>
+  <title>Kho phim bộ | FilmVerse</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,172 +11,76 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <link rel="stylesheet" href="assets/css/style.css">
 </head>
-
-<body>
-  <nav class="navbar navbar-dark sticky-top">
-    <div class="container d-flex flex-wrap align-items-center justify-content-between"><a class="navbar-brand m-0"
-        href="index.html"><img src="assets/images/logo.png" alt="FilmVerse" class="brand-logo"></a>
-      <ul class="navbar-nav align-items-center gap-lg-2">
-        <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
-        <li class="nav-item"><a class="nav-link active" href="products.html">Phim</a></li>
-        <li class="nav-item"><a class="nav-link" href="about.html">Thể loại</a></li>
-        <li class="nav-item"><a class="nav-link" href="faq.html">Gợi ý</a></li>
-        <li class="nav-item"><a class="nav-link" href="cart.html">Watchlist</a></li>
-      </ul>
-      <div class="d-flex gap-2"><a class="btn btn-outline-light" href="contact.html"><i
-            class="fa-solid fa-magnifying-glass"></i></a><a class="btn btn-primary" href="register.html">Đăng ký</a>
+<body id="top">
+<nav class="navbar navbar-dark sticky-top" aria-label="Điều hướng chính">
+  <div class="container d-flex flex-wrap align-items-center justify-content-between">
+    <a class="navbar-brand m-0" href="index.html"><img src="assets/images/logo.png" alt="FilmVerse" class="brand-logo"></a>
+    <ul class="navbar-nav align-items-center gap-lg-2">
+      <li class="nav-item"><a class="nav-link" href="index.html">Trang chủ</a></li>
+      <li class="nav-item"><a class="nav-link" href="products.html">Phim bộ</a></li>
+      <li class="nav-item"><a class="nav-link" href="products.html#genre">Thể loại</a></li>
+      <li class="nav-item"><a class="nav-link" href="faq.html">Gợi ý</a></li>
+      <li class="nav-item"><a class="nav-link" href="cart.html">Watchlist</a></li>
+    </ul>
+    <div class="d-flex gap-2 align-items-center" id="account-nav"><a class="btn btn-outline-light" href="login.html">Đăng nhập</a><a class="btn btn-primary" href="register.html">Đăng ký</a></div>
+  </div>
+</nav>
+<main class="container py-5">
+  <p class="section-kicker">KHO PHIM BỘ</p><h1 class="fw-bold">Chọn series cho tối nay</h1>
+  <p class="text-secondary">Tìm thông tin và lưu phim bộ vào watchlist. FilmVerse không phát video.</p>
+  <!-- products.js nhận submit để tìm trên API; lọc thể loại chỉ áp dụng kết quả đã tải. -->
+  <form id="film-search" class="film-toolbar my-4">
+    <div><label for="search" class="form-label">Tên phim bộ</label><input type="search" id="search" class="form-control" placeholder="Ví dụ: Sherlock, Girls..."></div>
+    <div><label for="genre" class="form-label">Thể loại</label><select id="genre" class="form-select"><option value="all">Tất cả thể loại</option></select></div>
+    <div><label for="sort" class="form-label">Sắp xếp</label><select id="sort" class="form-select"><option value="default">Mặc định</option><option value="rating">Điểm cao trước</option><option value="name">Tên A–Z</option></select></div>
+    <button class="btn btn-primary" type="submit">Tìm phim</button>
+  </form>
+  <p class="small text-secondary">Danh sách mặc định là trang đầu của TVmaze, không phải bảng xếp hạng mới nhất. Thể loại lọc trong kết quả đã tải.</p>
+  <p id="film-status" role="status" aria-live="polite"></p><div id="film-grid" class="row g-4" aria-busy="true"></div>
+  <div class="text-center mt-4"><button id="load-more" type="button" class="btn btn-outline-light" hidden>Xem thêm kết quả</button></div>
+</main>
+<footer class="site-footer fv-footer">
+  <div class="container">
+    <div class="fv-footer-top">
+      <div class="fv-footer-brand">
+        <a class="fv-footer-logo" href="index.html" aria-label="FilmVerse — Trang chủ">
+          <img src="assets/images/logo.png" alt="" width="44" height="44" loading="lazy">
+          <span>FILM<span class="fv-footer-accent">VERSE</span></span>
+        </a>
+        <p>Mỗi câu chuyện mở ra một thế giới mới. Khám phá series yêu thích và giữ lại những bộ phim bạn muốn xem.</p>
+        <a class="fv-footer-cta" href="products.html">Khám phá kho phim <span aria-hidden="true">↗</span></a>
+      </div>
+      <nav class="fv-footer-group" aria-label="Khám phá trong footer">
+        <h2>Khám phá</h2>
+        <a href="products.html">Kho phim bộ</a>
+        <a href="products.html#genre">Theo thể loại</a>
+        <a href="faq.html">Gợi ý tìm phim</a>
+        <a href="cart.html">Watchlist của bạn</a>
+      </nav>
+      <nav class="fv-footer-group" aria-label="Tài khoản và hỗ trợ">
+        <h2>Kết nối FilmVerse</h2>
+        <a href="login.html">Đăng nhập</a>
+        <a href="register.html">Tạo tài khoản</a>
+        <a href="contact.html">Góp ý &amp; liên hệ</a>
+      </nav>
+      <div class="fv-footer-source">
+        <span class="fv-footer-label"><span aria-hidden="true">✦</span> DÀNH CHO NGƯỜI YÊU SERIES</span>
+        <h2>Thông tin trước.<br>Cảm hứng sau.</h2>
+        <p>FilmVerse giúp bạn tìm hiểu phim bộ và lưu lựa chọn. Website không cung cấp video phát phim.</p>
+        <a href="https://www.tvmaze.com" target="_blank" rel="noopener noreferrer">Nguồn dữ liệu: TVmaze <span aria-hidden="true">↗</span></a>
       </div>
     </div>
-  </nav>
-  <main>
-    <section class="page-header py-5 text-center">
-      <div class="container">
-        <p class="section-kicker">Kho phim</p>
-        <h1 class="fw-bold display-5">Chọn bộ phim cho tối nay</h1>
-        <p class="text-secondary mb-0">Khám phá những bộ phim nổi bật và lưu lại lựa chọn yêu thích của bạn.</p>
-      </div>
-    </section>
-    <section class="py-5">
-      <div class="container">
-        <div class="d-flex flex-wrap justify-content-center gap-2 mb-5">
-          <a class="btn btn-primary" href="#all">Tất cả</a><a class="btn btn-outline-light" href="#action">Hành
-            động</a><a class="btn btn-outline-light" href="#anime">Anime</a><a class="btn btn-outline-light"
-            href="#scifi">Sci-fi</a><a class="btn btn-outline-light" href="#drama">Drama</a>
-        </div>
-        <div class="row g-4" id="all">
-          <div class="col-sm-6 col-lg-3" id="action">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=700&q=80"
-                  alt="Shadow Mission poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Hành động</span>
-                <h2 class="h5 mt-3">Shadow Mission</h2>
-                <p class="text-secondary small">Đặc vụ bí mật chạy đua trong thành phố đêm.</p><a
-                  href="shadow-mission.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3" id="anime">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="assets/images/wistoria.png"
-                  alt="Wistoria poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Anime</span>
-                <h2 class="h5 mt-3">Wistoria</h2>
-                <p class="text-secondary small">Phép thuật, tình bạn và những trận đấu rực sáng.</p><a
-                  href="wistoria.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3" id="scifi">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=700&q=80"
-                  alt="Nova Drift poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Sci-fi</span>
-                <h2 class="h5 mt-3">Nova Drift</h2>
-                <p class="text-secondary small">Phi hành đoàn tìm tín hiệu lạ ngoài rìa ngân hà.</p><a
-                  href="nova-drift.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3" id="drama">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1485846234645-a62644f84728?auto=format&fit=crop&w=700&q=80"
-                  alt="Last Letter poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Drama</span>
-                <h2 class="h5 mt-3">Last Letter</h2>
-                <p class="text-secondary small">Một lá thư cũ mở lại ký ức thanh xuân.</p><a href="last-letter.html"
-                  class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=700&q=80"
-                  alt="Neon Case poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Tội phạm</span>
-                <h2 class="h5 mt-3">Neon Case</h2>
-                <p class="text-secondary small">Một vụ án biến mất giữa ánh đèn đô thị.</p><a href="neon-case.html"
-                  class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1485095329183-d0797cdc5676?auto=format&fit=crop&w=900&q=80"
-                  alt="Dream Cut poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Lãng mạn</span>
-                <h2 class="h5 mt-3">Dream Cut</h2>
-                <p class="text-secondary small">Hai người gặp nhau qua một cuộn phim dang dở.</p><a
-                  href="dream-cut.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1509347528160-9a9e33742cdb?auto=format&fit=crop&w=700&q=80"
-                  alt="Final Scene poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Kinh dị</span>
-                <h2 class="h5 mt-3">Final Scene</h2>
-                <p class="text-secondary small">Đoàn phim mắc kẹt trong phim trường bỏ hoang.</p><a
-                  href="final-scene.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-          <div class="col-sm-6 col-lg-3">
-            <article class="card movie-card">
-              <div class="poster-frame"><img
-                  src="https://images.unsplash.com/photo-1497032205916-ac775f0649ae?auto=format&fit=crop&w=700&q=80"
-                  alt="Blue Orbit poster"></div>
-              <div class="card-body"><span class="badge badge-soft">Phiêu lưu</span>
-                <h2 class="h5 mt-3">Blue Orbit</h2>
-                <p class="text-secondary small">Chuyến đi vượt biển để tìm ngọn hải đăng cổ.</p><a
-                  href="blue-orbit.html" class="btn btn-outline-light w-100">Xem chi tiết</a>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer class="site-footer py-5">
-    <div class="container">
-      <div class="row g-4 align-items-start">
-        <div class="col-lg-5">
-          <img src="assets/images/logo.png" class="footer-logo mb-3" alt="FilmVerse">
-          <p class="text-secondary mb-0">Không gian xem phim, lưu phim và tìm cảm hứng điện ảnh với giao diện tối hiện
-            đại.</p>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h5 class="fw-bold">Khám phá</h5>
-          <a class="footer-link" href="products.html">Kho phim</a>
-          <a class="footer-link" href="about.html">Thể loại</a>
-          <a class="footer-link" href="faq.html">Gợi ý</a>
-        </div>
-        <div class="col-6 col-lg-2">
-          <h5 class="fw-bold">Tài khoản</h5>
-          <a class="footer-link" href="cart.html">Watchlist</a>
-          <a class="footer-link" href="checkout.html">Đăng nhập</a>
-          <a class="footer-link" href="register.html">Đăng ký</a>
-        </div>
-        <div class="col-lg-3">
-          <h5 class="fw-bold">Kết nối</h5>
-          <div class="d-flex gap-2">
-            <a class="footer-social" href="#" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
-            <a class="footer-social" href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
-            <a class="footer-social" href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
-          </div>
-        </div>
-      </div>
-      <hr class="border-secondary my-4">
-      <p class="small text-secondary mb-0">© 2026 FilmVerse. All rights reserved.</p>
+    <div class="fv-footer-bottom">
+      <p>© FilmVerse. Không gian khám phá phim bộ.</p>
+      <div><a href="https://www.tvmaze.com/api" target="_blank" rel="noopener noreferrer">TVmaze API</a><span aria-hidden="true">·</span><a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noopener noreferrer">Dữ liệu CC BY-SA</a><a class="fv-back-top" href="#top" aria-label="Về đầu trang">Lên đầu trang <span aria-hidden="true">↑</span></a></div>
     </div>
-  </footer>
+  </div>
+</footer>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/ui.js"></script>
+<script src="assets/js/watchlist-store.js"></script>
+<script src="assets/js/main.js"></script>
+<script src="assets/js/api.js"></script>
+<script src="assets/js/products.js"></script>
 </body>
-
 </html>

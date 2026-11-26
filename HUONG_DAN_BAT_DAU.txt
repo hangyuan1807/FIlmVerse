@@ -1,0 +1,110 @@
+ĐỌC PROJECT THEO LUỒNG API
+
+Mở cả thư mục trong VS Code, mở index.html bằng Live Server.
+Các file vẫn dùng script thường, không tự thêm type=module.
+
+1. CẤU TRÚC
+
+FilmVerse/
+  index.html                    Trang chủ API
+  products.html                 Danh sách/tìm phim bộ
+  product-detail.html           Chi tiết chung theo ID
+  cart.html                     Watchlist
+  login.html, register.html     Tài khoản demo
+  contact.html                  Form liên hệ
+  about.html, faq.html          Thể loại/gợi ý để phát triển tiếp
+  checkout.html                 Dẫn tới đăng nhập chung
+  assets/
+    css/style.css               CSS dùng chung
+    images/                     Ảnh và poster dự phòng
+    js/
+      config.js                 URL và key
+      api.js                    Fetch/chuẩn hóa
+      ui.js                     Card và thông báo lỗi
+      products.js               Luồng danh sách
+      detail.js                 Luồng chi tiết
+      watchlist-store.js        Đọc/ghi ID localStorage
+      watchlist.js              Render watchlist từ API
+      auth.js                   Xử lý tài khoản chung
+      login.js, register.js     Gọi đúng chế độ tài khoản
+      main.js                   Menu và form dùng chung
+
+Các trang tên phim cũ còn lại là mẫu HTML, không nằm trong luồng API mới.
+
+2. CONFIG.JS -> API.JS
+
+Danh sách mặc định:
+  https://api.tvmaze.com/shows?page=0
+Trả [show, show, ...]. Đây là chỉ mục đầu tiên, không phải phim mới nhất.
+
+Tìm kiếm:
+  https://api.tvmaze.com/search/shows?q=girls
+Trả [{ score: ..., show: {...} }, ...]. Cần lấy item.show trước khi render.
+Không có kết quả thì mảng rỗng. Không map trực tiếp object show như một mảng.
+
+Chi tiết:
+  https://api.tvmaze.com/shows/1?embed=cast
+Trả một object phim, diễn viên nằm trong _embedded.cast.
+
+request() xử lý fetch -> response.ok -> await response.json(), có timeout.
+normalize() đưa cả list/search/detail về object chung: id, name, image,
+genres, year, rating, summary... Summary từ nguồn có HTML nên lấy phần chữ
+và dùng textContent; không nhét HTML nguồn thẳng vào trang.
+
+Nguồn có thể thiếu ảnh, điểm, ngày chiếu hoặc thời lượng. Không tự bịa giá trị,
+dùng ảnh dự phòng và dòng Chưa có thông tin.
+Tài liệu: https://www.tvmaze.com/api
+API phim bộ, không có video để phát. Link ghi nguồn nằm ở footer/trang chi tiết.
+
+3. UI.JS -> PRODUCTS.JS -> PRODUCTS.HTML
+
+createFilmCard(film) tạo DOM cho từng phim, link lấy film.id:
+  product-detail.html?id=1
+
+products.js fetch danh sách hoặc tìm kiếm từ form, rồi lọc/sắp xếp phía trình duyệt.
+Thể loại xây từ dữ liệu trả về, không gán nhầm Anime cho một bộ không có thể loại đó.
+Mỗi lần hiện 24 card; Xem thêm chỉ hiện tiếp kết quả đang giữ trong mảng.
+Trang chủ dùng lại file này và chỉ hiện tám card.
+
+Khi tìm liên tiếp, mỗi request có số thứ tự; chỉ kết quả request mới nhất được render.
+Các trạng thái: đang tải, có phim, không có kết quả, lỗi có Thử lại.
+
+4. PRODUCT-DETAIL.HTML -> DETAIL.JS
+
+URLSearchParams(location.search).get('id') lấy ID.
+Kiểm tra số hợp lệ -> FilmAPI.detail(id) -> clone template -> điền dữ liệu.
+Không phụ thuộc object cất tạm từ trang danh sách, nên refresh vẫn ra đúng phim.
+ID không có thật phải báo lỗi, không thay bằng phim mẫu khác.
+
+5. WATCHLIST-STORE.JS -> WATCHLIST.JS
+
+Key filmverse_watchlist chứa mảng ID, ví dụ [1, 82, 139].
+Toggle lưu/bỏ, read() xử lý JSON hỏng và loại ID trùng.
+Không lưu cả object phim vào watchlist.
+
+cart.html đọc các ID -> gọi chi tiết theo nhóm ba request -> render card.
+Promise.allSettled cho phép một ID lỗi mà phim khác vẫn hiện.
+Tối đa 30 phim cho bài demo để tránh quá nhiều request.
+Đây là dữ liệu của trình duyệt, chưa chia riêng theo tài khoản.
+
+6. AUTH.JS -> MAIN.JS
+
+Giữ users/currentUser của em, email được trim và chuyển về chữ thường.
+Đăng ký kiểm tra email trùng, tên và quy tắc mật khẩu đã có.
+Đăng nhập không trim mật khẩu, so sánh đúng chuỗi và chỉ lưu tên/email vào phiên.
+users vẫn là tài khoản demo có mật khẩu dạng rõ, không dùng cho dữ liệu thật.
+
+Thứ tự nạp file trang phim:
+  config -> ui -> watchlist-store -> main -> api -> file của trang
+Trang tài khoản nạp thêm auth -> login hoặc register.
+
+7. TỰ THỬ
+
+- Tìm Girls hoặc Sherlock, chọn card, kiểm tra URL có ID và chi tiết đúng tên.
+- Refresh chi tiết, mở link trong tab khác, thử ID rỗng/chữ/không tồn tại.
+- Lưu phim, sang watchlist, tải lại rồi bỏ phim; thử danh sách trống.
+- Tìm chuỗi vô nghĩa, thử mất mạng và nút Thử lại.
+- Đăng ký email trùng khác hoa/thường, đăng nhập sai mật khẩu.
+- Mở Console và kiểm tra trên điện thoại trước khi nộp.
+
+Làm tiếp theo checklist trong NOTE_REVIEW_CUA_THAY.txt.
