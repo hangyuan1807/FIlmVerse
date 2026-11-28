@@ -21,7 +21,8 @@ function setupAuthForm(mode) {
         if (users.some(user => user.email.trim().toLowerCase() === email)) throw new Error("Email đã được đăng ký.");
         users.push({ username, email, password });
         localStorage.setItem("users", JSON.stringify(users));
-        feedback.textContent = "Đã tạo tài khoản demo. Bạn có thể đăng nhập.";
+        localStorage.setItem("currentUser", JSON.stringify({ username: username, email: email }));
+        location.href = "./index.html";
         return;
       }
       const user = users.find(user => user.email.trim().toLowerCase() === email && user.password === password);
