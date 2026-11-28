@@ -1,0 +1,120 @@
+THẦY NOTE LẠI CHO EM
+
+FilmVerse đã có màu tím/đen và bố cục khá rõ. Thầy giữ nhận diện này,
+chỉnh lại khoảng cách, menu, card và form để các trang nhìn đồng nhất hơn.
+Không kéo form đăng nhập/đăng ký rộng hết màn hình.
+
+Project ban đầu chưa có fetch API. Các phim như Shadow Mission, Nova Drift...
+đang là dữ liệu mẫu trong HTML. main.js còn TODO giỏ hàng và giá tiền của
+template TechZone, không phù hợp với website phim nên thầy đã thay phần đó.
+
+NGUỒN API ĐANG DÙNG
+
+TVmaze: https://www.tvmaze.com/api
+API công khai, không cần đăng ký key, dùng trực tiếp từ trình duyệt.
+Nguồn này là phim bộ/series, không phải kho phim chiếu rạp và không cung cấp
+video để phát phim. UI đã ghi đúng là phim bộ, có link ghi nguồn TVmaze.
+Không đặt nút trailer hay nút xem phim giả khi nguồn không có dữ liệu đó.
+
+THẦY ĐÃ SỬA NHỮNG FILE NÀY
+
+index.html
+- Giữ banner và logo của em, sửa nội dung về hướng khám phá thông tin phim bộ.
+- Render tám phim từ API thay cho các card phim mẫu viết sẵn.
+
+products.html
+- Đổi thành kho phim bộ API: tìm tên, lọc thể loại, sắp xếp điểm hoặc tên.
+- Ban đầu hiện 24 phim, bấm Xem thêm để hiện tiếp kết quả đã tải.
+- Ghi rõ danh sách mặc định là trang đầu TVmaze, không phải phim mới hay top trending.
+- Thể loại chỉ lọc kết quả đã tải; tìm kiếm theo tên mới gửi request tới API.
+
+product-detail.html
+- Thành trang chi tiết chung theo product-detail.html?id=ID.
+- Có poster, tên, năm, thể loại, điểm nguồn, mô tả, diễn viên, thời lượng,
+  ngôn ngữ, trạng thái và nút lưu/bỏ watchlist.
+- Fetch lại theo ID để mở trực tiếp hoặc refresh vẫn ra đúng phim.
+
+cart.html
+- Giữ tên file để các link cũ vẫn dùng được, nội dung là watchlist.
+- Đọc ID từ localStorage, fetch lại tên/ảnh/thông tin từ API.
+- Có bỏ phim, báo danh sách trống, báo ID tải lỗi và nút tải lại.
+- Tải nhóm nhỏ để tránh gọi hàng chục request cùng lúc.
+
+login.html, register.html và assets/js/login.js, register.js
+- Chỉnh form theo cùng UI FilmVerse, label rõ ràng, thêm autocomplete.
+- Giữ các key users/currentUser, giữ nguyên quy tắc mật khẩu đã có của em.
+- Thêm kiểm tra email trùng không phân biệt hoa thường, thông báo lỗi trong form.
+- Không trim mật khẩu lúc đăng nhập vì lúc đăng ký lưu đúng chuỗi đã nhập.
+- Phiên mới chỉ lưu tên/email, không chép cả mật khẩu vào currentUser.
+
+checkout.html
+- Đây từng là trang đăng nhập giả, bấm là về trang chủ mà không kiểm tra gì.
+- Chuyển thành trang dẫn tới login.html chung, sửa các link đăng nhập tương ứng.
+
+assets/js/main.js
+- Bỏ TODO shop cũ, giữ phần menu, trạng thái tài khoản/đăng xuất và form chung.
+- Tên tài khoản đi vào textContent, đọc currentUser hỏng không làm vỡ trang phim.
+- Form liên hệ hợp lệ cũng không báo đã gửi server khi chưa có chức năng gửi.
+
+assets/css/style.css
+- Giữ style cũ, thêm khung tìm kiếm, card API, chi tiết hai cột và form tài khoản.
+- Trên điện thoại chi tiết về một cột, card giữ tỉ lệ poster, chữ phụ dễ đọc hơn.
+
+FILE MỚI EM ĐỌC THEO THỨ TỰ
+
+assets/js/config.js
+  URL API, số card mỗi lần hiện, ảnh dự phòng và key watchlist.
+assets/js/api.js
+  Fetch, response.ok, timeout và chuẩn hóa dữ liệu.
+  Chú ý list trả mảng show, search trả mảng object có thuộc tính show.
+assets/js/ui.js
+  Tạo card, xử lý poster lỗi, hiển thị thông báo lỗi và nút thử lại.
+assets/js/products.js
+  Tìm kiếm API, lọc thể loại, sắp xếp, Xem thêm và render trang chủ.
+  Request cũ không ghi đè kết quả khi em tìm liên tiếp.
+assets/js/detail.js
+  Đọc ID, gọi API chi tiết và render template. Không gán phim đầu tiên khi link sai.
+assets/js/watchlist-store.js
+  Chỉ lưu ID vào filmverse_watchlist, bỏ ID trùng và giới hạn 30 phim cho bài demo.
+assets/js/watchlist.js
+  Dùng ID đã lưu để lấy lại dữ liệu API, xóa phim và xử lý lỗi từng ID.
+assets/js/auth.js
+  Validate và xử lý tài khoản chung cho login/register.
+assets/images/poster-placeholder.svg
+  Poster dự phòng khi nguồn chưa có ảnh hoặc ảnh bị hỏng.
+
+CÁC TRANG PHIM MẪU CŨ
+
+shadow-mission.html, nova-drift.html, last-letter.html, neon-case.html,
+blue-orbit.html, dream-cut.html, final-scene.html và wistoria.html còn giữ
+để em tham khảo bố cục. Có ghi rõ đây là trang mẫu. Luồng API mới dùng một
+product-detail.html theo ID, không tạo thêm một HTML cho mỗi phim.
+Khi dọn bài cuối cùng, em có thể bỏ các trang mẫu sau khi rà hết link.
+
+EM LÀM TIẾP
+
+[ ] Đọc HUONG_DAN_BAT_DAU.txt rồi chạy bằng Live Server.
+[ ] Tự giải thích khác nhau giữa response của danh sách và tìm kiếm.
+[ ] Chạy tìm phim -> chi tiết -> lưu watchlist -> tải lại -> bỏ phim.
+[ ] Thử link thiếu/sai ID, phim không tồn tại, không có poster/điểm và mất mạng.
+[ ] Thêm phim liên quan bằng API, tránh đưa lại ID đang xem.
+[ ] Thêm danh sách tập hoặc mùa bằng endpoint của TVmaze.
+[ ] Phân biệt Xem thêm kết quả hiện có với tải trang API tiếp theo.
+     Hiện chưa duyệt toàn bộ thư viện, danh sách mặc định chỉ lấy page=0.
+[ ] Nếu muốn làm phim chiếu rạp, chọn lại nguồn phù hợp. Không đổi nhãn series
+     thành phim rạp hoặc tự viết thêm điểm, đạo diễn, trailer không có từ nguồn.
+[ ] Watchlist hiện dùng chung trên trình duyệt. Nếu muốn riêng từng người dùng,
+     cần thiết kế key theo tài khoản và xử lý trường hợp chưa đăng nhập.
+[ ] Tài khoản vẫn là localStorage, users còn chứa mật khẩu dạng rõ để học demo.
+     Không dùng mật khẩu thật; tài khoản thực tế cần backend.
+[ ] Form liên hệ chưa gửi dữ liệu, các trang thể loại/gợi ý đang ở mức hướng dẫn.
+     Em tự phát triển tiếp dựa trên dữ liệu API thay cho nội dung mẫu.
+[ ] Rà UI điện thoại/máy tính và Console; dọn trang và ảnh template không còn dùng.
+
+THẦY ĐÃ KIỂM TRA
+
+- API thật danh sách và chi tiết trả HTTP 200.
+- Cú pháp JS và link file cục bộ.
+- Mô phỏng DOM: danh sách, tìm kiếm, Xem thêm, chi tiết theo ID, mô tả chữ,
+  lưu/xóa watchlist, lỗi ID/API và validate tài khoản.
+
